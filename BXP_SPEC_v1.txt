@@ -1,0 +1,126 @@
+Breathe Exposure Protocol (BXP)
+Author: <Elvarin>
+Status: v1 frozen
+Date: <15th February 2026>
+
+==================================================
+BREATHE EXPOSURE PROTOCOL — SPECIFICATION v1
+==================================================
+
+1. Protocol Name
+----------------
+Breathe Exposure Protocol (BXP)
+
+BXP defines a user-owned, verifiable, portable filesystem for environmental
+and exposure data generated locally on personal devices.
+
+The protocol is sensor-agnostic and does not require network connectivity,
+accounts, or centralized infrastructure.
+
+==================================================
+
+2. Exposure Event v1 Schema
+--------------------------
+
+Each Exposure Event represents a single point-in-time record of environmental
+exposure context.
+
+Schema identifier:
+bxp.exposure_event.v1
+
+Fields:
+
+- event_id (string, UUID)
+  Unique identifier for the exposure event.
+
+- timestamp_utc (string, ISO 8601)
+  UTC time when the exposure event was recorded.
+
+- location (object)
+  - latitude (float or null)
+  - longitude (float or null)
+
+- exposure_vector (object)
+  All values may be numeric or null.
+  - oxygen
+  - nitrogen
+  - pollution
+  - pollen
+  - acidity
+
+- notes (string)
+  Optional human-readable context.
+
+A valid Exposure Event MAY contain only timestamp data.
+All other fields are optional.
+
+==================================================
+
+3. BXP Container v1 Schema
+-------------------------
+
+Schema identifier:
+bxp.container.v1
+
+A BXP Container is a portable, self-verifying file that bundles one or more
+Exposure Events.
+
+Fields:
+
+- protocol (string)
+  Must be "Breathe Exposure Protocol"
+
+- version (string)
+  Protocol version, e.g. "1.0"
+
+- owner (string)
+  Declares data ownership (default: "user")
+
+- generated_at (string, ISO 8601)
+  UTC time the container was created.
+
+- events (array)
+  List of Exposure Event v1 objects.
+
+- payload_hash (string)
+  SHA-256 hash of the canonical JSON-encoded payload.
+
+- signature (string)
+  Cryptographic signature of payload_hash.
+  In v1, self-signing is permitted.
+
+- verification (object)
+  - method (string): "sha256"
+  - status (string): Unverified | Verified | Tampered
+
+==================================================
+
+4. Verification Rule
+--------------------
+
+Verification MUST follow this process:
+
+1. Canonically serialize the payload using sorted JSON keys.
+2. Compute SHA-256 hash of the serialized payload.
+3. Compare computed hash to payload_hash.
+4. If hashes match:
+   - verification.status = "Verified"
+5. If hashes do not match:
+   - verification.status = "Tampered"
+
+A container with status "Verified" is considered authentic and untampered.
+
+==================================================
+
+5. Guarantees
+-------------
+
+- Data is user-owned by default.
+- No implicit data transmission is allowed.
+- No surveillance assumptions are permitted.
+- The protocol is offline-first.
+- The format is forward-extensible without breaking v1.
+
+==================================================
+
+END OF SPECIFICATION — BXP v1 (FROZEN)

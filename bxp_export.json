@@ -1,0 +1,34 @@
+{
+  "container_schema": "bxp.container.v1",
+  "payload": {
+    "protocol": "Breathe Exposure Protocol",
+    "version": "1.0",
+    "owner": "user",
+    "generated_at": "2026-02-15T08:55:12.396731Z",
+    "events": [
+      {
+        "event_id": "645e2c24-1219-438b-b9f2-130b332d9c48",
+        "schema": "bxp.exposure_event.v1",
+        "timestamp_utc": "2026-02-15T08:55:12.393263Z",
+        "location": {
+          "latitude": null,
+          "longitude": null
+        },
+        "exposure_vector": {
+          "oxygen": null,
+          "nitrogen": null,
+          "pollution": null,
+          "pollen": null,
+          "acidity": null
+        },
+        "notes": "time-only exposure event"
+      }
+    ]
+  },
+  "payload_hash": "0fae8ca098cf76db70e1a16fb99ebf818f7f5fd756034c00c5681ecdfd53b115",
+  "signature": "0fae8ca098cf76db70e1a16fb99ebf818f7f5fd756034c00c5681ecdfd53b115",
+  "verification": {
+    "method": "sha256",
+    "status": "Verified"
+  }
+}
